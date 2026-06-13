@@ -1,17 +1,16 @@
 package pt.cadastro_cliente.service;
 
-import pt.cadastro_cliente.model.Cliente;
-import pt.cadastro_cliente.repository.ClienteRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 
-/**
- * Implementação do serviço.
- * Aqui ficam as regras de negócio.
- */
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import pt.cadastro_cliente.model.Cliente;
+import pt.cadastro_cliente.repository.ClienteRepository;
+
+// Implementação do service, aqui ficam as regras de negócio.
+
 @Service
 public class ClienteServiceImpl implements ClienteService {
 
