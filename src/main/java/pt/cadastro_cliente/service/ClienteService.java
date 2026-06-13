@@ -5,9 +5,8 @@ import java.util.Optional;
 
 import pt.cadastro_cliente.model.Cliente;
 
-/**
- * Interface do serviço (regras de negócio).
- */
+// Interface do serviço (regras de negócio).
+
 public interface ClienteService {
 
     Cliente salvar(Cliente cliente);
