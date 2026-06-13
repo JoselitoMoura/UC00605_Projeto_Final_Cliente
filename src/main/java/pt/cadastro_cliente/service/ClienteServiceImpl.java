@@ -1,7 +1,7 @@
-package pt.uc00605_projeto_final_cliente.service;
+package pt.cadastro_cliente.service;
 
-import pt.uc00605_projeto_final_cliente.model.Cliente;
-import pt.uc00605_projeto_final_cliente.repository.ClienteRepository;
+import pt.cadastro_cliente.model.Cliente;
+import pt.cadastro_cliente.repository.ClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

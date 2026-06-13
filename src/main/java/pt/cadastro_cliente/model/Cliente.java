@@ -1,4 +1,4 @@
-package pt.uc00605_projeto_final_cliente.model;
+package pt.cadastro_cliente.model;
 
 import jakarta.persistence.*;
 

@@ -1,8 +1,10 @@
-package pt.uc00605_projeto_final_cliente.service;
+package pt.cadastro_cliente.service;
 
-import pt.uc00605_projeto_final_cliente.model.Cliente;
 import java.util.List;
 import java.util.Optional;
+
+import pt.cadastro_cliente.model.Cliente;
+import pt.uc00605_projeto_final_cliente.model.Cliente;
 
 /**
  * Interface do serviço (regras de negócio).

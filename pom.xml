@@ -3,15 +3,21 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>4.1.0</version>
+		<relativePath/>
+	</parent>
+
 	<groupId>pt.cadastro_cliente</groupId>
 	<artifactId>cadastro_cliente</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>UC00605 - Projeto Final Cadastro de Cliente</name>
 	<description>Realizar o Cadastro de Clientes em Java com Spring Boot</description>
-	
+
 	<properties>
 		<java.version>21</java.version>
-		<spring-boot.version>4.1.0</spring-boot.version>
 	</properties>
 
 	<dependencies> <!-- Declaração das dependências do programa -->

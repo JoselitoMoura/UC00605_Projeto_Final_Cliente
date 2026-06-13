@@ -1,6 +1,6 @@
-package pt.uc00605_projeto_final_cliente.repository;
+package pt.cadastro_cliente.repository;
 
-import pt.uc00605_projeto_final_cliente.model.Cliente;
+import pt.cadastro_cliente.model.Cliente;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**

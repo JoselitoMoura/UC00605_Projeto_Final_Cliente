@@ -1,7 +1,7 @@
-package pt.uc00605_projeto_final_cliente.controller;
+package pt.cadastro_cliente.controller;
 
-import pt.uc00605_projeto_final_cliente.model.Cliente;
-import pt.uc00605_projeto_final_cliente.service.ClienteService;
+import pt.cadastro_cliente.model.Cliente;
+import pt.cadastro_cliente.service.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
