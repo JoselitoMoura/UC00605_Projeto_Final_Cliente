@@ -1,0 +1,413 @@
+<!--
+    Criação de uma página web simples para a exibição da aplicação
+    Adicionada em: 14/06/2026
+-->
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <!-- Define a codificação dos caracteres -->
+    <meta charset="UTF-8">
+
+    <!-- Faz a página adaptar-se a celulares -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Título mostrado na aba do navegador -->
+    <title>Cadastro de Clientes</title>
+
+    <style>
+
+        /* Estilo geral da página */
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            margin: 30px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        input {
+            width: 300px;
+            padding: 8px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            padding: 8px 15px;
+            margin-right: 5px;
+            cursor: pointer;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid #999;
+        }
+
+        th {
+            background-color: #f0f0f0;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            text-align: left;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <h1>Cadastro de Clientes</h1>
+
+    <!--
+        Campo oculto. O usuário não vê este campo.
+        Guarda o ID do cliente que está sendo editado.
+    -->
+    <input type="hidden" id="id">
+
+    <div>
+
+        <label>Nome:</label><br>
+
+        <!-- Campo Nome -->
+        <input
+            type="text"
+            id="nome"
+            placeholder="Digite o nome do cliente">
+
+        <br>
+
+        <label>Email:</label><br>
+
+        <!-- Campo Email -->
+        <input
+            type="email"
+            id="email"
+            placeholder="Digite o email">
+
+        <br>
+
+        <label>Telefone:</label><br>
+
+        <!-- Campo Telefone -->
+        <input
+            type="text"
+            id="telefone"
+            placeholder="Digite o telefone">
+
+        <br><br>
+
+        <!-- Botão Cadastrar -->
+        <button onclick="cadastrar()">
+            Cadastrar
+        </button>
+
+        <!-- Botão Atualizar -->
+        <button onclick="atualizar()">
+            Atualizar
+        </button>
+
+        <!-- Botão Limpar -->
+        <button onclick="limparFormulario()">
+            Limpar
+        </button>
+
+        <!-- Botão Listar -->
+        <button onclick="listarClientes()">
+            Recarregar Lista
+        </button>
+
+    </div>
+
+    <hr>
+
+    <h2>Lista de Clientes</h2>
+
+    <!--
+        Tabela onde os clientes serão exibidos
+        dinamicamente pelo JavaScript.
+    -->
+    <table>
+
+        <thead>
+
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Email</th>
+                <th>Telefone</th>
+                <th>Ações</th>
+            </tr>
+
+        </thead>
+
+        <tbody id="tabelaClientes">
+            <!-- JavaScript insere as linhas da tabela aqui. -->
+        </tbody>
+
+    </table>
+
+    <script>
+        /*
+         * Endereço base da API REST.
+         * Todas as operações CRUD utilizam esta URL.
+         */
+        const API_URL = "http://localhost:8080/clientes";
+
+        /*
+         * Cadastrar Cliente (POST)         *
+         * Executa quando o utilizador clica no botão "Cadastrar".         *
+         * Envia os dados do formulário para a API.
+         */
+        function cadastrar() {
+
+            const cliente = {
+                nome: document.getElementById("nome").value,
+                email: document.getElementById("email").value,
+                telefone: document.getElementById("telefone").value
+            };
+
+            fetch(API_URL, {
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify(cliente)
+            })
+                .then(response => response.json())
+                .then(dados => {
+
+                    alert("Cliente cadastrado com sucesso!");
+
+                    limparFormulario();
+
+                    listarClientes();
+
+                })
+                .catch(error => {
+
+                    console.error(error);
+
+                    alert("Erro ao cadastrar.");
+
+                });
+
+        }
+
+        /*
+         * Listar Clientes (GET)          
+         * Consulta todos os clientes existentes no DBF
+         */
+        function listarClientes() {
+
+            fetch(API_URL)
+                .then(response => response.json())
+                .then(clientes => {
+
+                    const tabela =
+                        document.getElementById("tabelaClientes");
+
+                    tabela.innerHTML = "";
+
+                    clientes.forEach(cliente => {
+
+                        tabela.innerHTML += `
+                            <tr>
+
+                                <td>${cliente.id}</td>
+                                <td>${cliente.nome}</td>
+                                <td>${cliente.email}</td>
+                                <td>${cliente.telefone}</td>
+
+                                <td>
+
+                                    <button onclick="carregarCliente(${cliente.id})">
+                                        Editar
+                                    </button>
+
+                                    <button onclick="excluirCliente(${cliente.id})">
+                                        Excluir
+                                    </button>
+
+                                </td>
+
+                            </tr>
+                        `;
+
+                    });
+
+                })
+                .catch(error => {
+
+                    console.error(error);
+
+                    alert("Erro ao listar clientes.");
+
+                });
+
+        }
+
+        /*
+         * Carregar Cliente para edição (GET /id)          
+         * Busca um cliente específico através do ID
+         * e preenche os campos do formulário.
+         */
+        function carregarCliente(id) {
+
+            fetch(API_URL + "/" + id)
+                .then(response => response.json())
+                .then(cliente => {
+
+                    document.getElementById("id").value =
+                        cliente.id;
+
+                    document.getElementById("nome").value =
+                        cliente.nome;
+
+                    document.getElementById("email").value =
+                        cliente.email;
+
+                    document.getElementById("telefone").value =
+                        cliente.telefone;
+
+                })
+                .catch(error => {
+
+                    console.error(error);
+
+                    alert("Erro ao carregar cliente.");
+
+                });
+
+        }
+
+        /*
+         * Atualizar Cliente (PUT)*
+         * Atualiza os dados de um cliente previamente selecionado.
+         */
+        function atualizar() {
+
+            const id =
+                document.getElementById("id").value;
+
+            if (id === "") {
+
+                alert("Selecione um cliente para editar.");
+
+                return;
+            }
+
+            const cliente = {
+                nome: document.getElementById("nome").value,
+                email: document.getElementById("email").value,
+                telefone: document.getElementById("telefone").value
+            };
+
+            fetch(API_URL + "/" + id, {
+
+                method: "PUT",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify(cliente)
+
+            })
+                .then(response => response.json())
+                .then(() => {
+
+                    alert("Cliente atualizado.");
+
+                    limparFormulario();
+
+                    listarClientes();
+
+                })
+                .catch(error => {
+
+                    console.error(error);
+
+                    alert("Erro ao atualizar.");
+
+                });
+
+        }
+
+        /*
+         * Excluir Cliente. Remove o cliente selecionado do DBF
+         */
+        function excluirCliente(id) {
+
+            const confirma =
+                confirm("Deseja realmente excluir este cliente?");
+
+            if (!confirma) {
+                return;
+            }
+
+            fetch(API_URL + "/" + id, {
+                method: "DELETE"
+            })
+                .then(() => {
+
+                    alert("Cliente excluído.");
+
+                    listarClientes();
+
+                })
+                .catch(error => {
+
+                    console.error(error);
+
+                    alert("Erro ao excluir.");
+
+                });
+
+        }
+
+        /*
+         * Limpar Formulário. Remove todos os valores dos campos
+         * e limpa o ID oculto.
+         */
+        function limparFormulario() {
+
+            document.getElementById("id").value = "";
+
+            document.getElementById("nome").value = "";
+
+            document.getElementById("email").value = "";
+
+            document.getElementById("telefone").value = "";
+
+        }
+
+        /*
+         * Carregamento Inicial. Assim que a página terminar de carregar,
+         * a lista de clientes será exibida.
+         */
+        document.addEventListener("DOMContentLoaded", function () {
+
+            listarClientes();
+
+        });
+
+    </script>
+
+</body>
+
+</html>
